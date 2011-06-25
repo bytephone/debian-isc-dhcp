@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # dhclient-script for GNU/kFreeBSD. Aurelien Jarno, May, 2005.
 # Based on Linux and FreeBSD scripts.
 
