@@ -739,6 +739,12 @@ void parse_client_statement (cfile, ip, config)
 		parse_reject_statement (cfile, config);
 		return;
 
+	      case DISCOVER_ORDER:
+	      case REQUEST_ORDER:
+		token = next_token (&val, (unsigned *)0, cfile);
+		parse_order_statement (cfile, config, token);
+		return;
+
 	      default:
 		lose = 0;
 		stmt = (struct executable_statement *)0;
@@ -2165,6 +2171,28 @@ void parse_string_list (cfile, lp, multiple)
 		parse_warn (cfile, "expecting semicolon.");
 		skip_to_semi (cfile);
 	}
+}
+
+void parse_order_statement(cfile, config, token)
+	struct parse *cfile;
+	struct client_config *config;
+	enum dhcp_token token;
+{
+	const char *val;
+	int index = 0;
+	int *order_arr = token == DISCOVER_ORDER
+	    ? &config->discover_order[0]
+	    : &config->request_order[0];
+	int *is_order = token == DISCOVER_ORDER
+	    ? &config->discover_manual_order
+	    : &config->request_manual_order;
+
+	*is_order = 1;
+	do {
+	    token = next_token (&val, (unsigned *)0, cfile);
+	    order_arr[index++] = atoi(val);
+	    token = next_token (&val, (unsigned *)0, cfile);
+	} while (token == COMMA);
 }
 
 void parse_reject_statement (cfile, config)

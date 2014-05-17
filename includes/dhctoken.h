@@ -364,7 +364,9 @@ enum dhcp_token {
 	GETHOSTBYNAME = 665,
 	PRIMARY6 = 666,
 	SECONDARY6 = 667,
-	TOKEN_INFINIBAND = 668
+	TOKEN_INFINIBAND = 668,
+	DISCOVER_ORDER = 669,
+	REQUEST_ORDER = 670,
 };
 
 #define is_identifier(x)	((x) >= FIRST_TOKEN &&	\

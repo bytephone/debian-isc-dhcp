@@ -641,6 +641,25 @@ cons_options(struct packet *inpacket, struct dhcp_packet *outpacket,
  	 * must be in the option cache in order to actually be included.
 	 */
 	priority_len = 0;
+	if (client_state->state == S_INIT &&
+	    client_state->config->discover_manual_order) {
+	    while (client_state->config->discover_order[priority_len]) {
+		priority_list[priority_len] =
+		    client_state->config->discover_order[priority_len];
+		priority_len++;
+	    }
+	    goto skip_auto;
+	}
+	if (client_state->state == S_REQUESTING &&
+	    client_state->config->request_manual_order) {
+	    while (client_state->config->request_order[priority_len]) {
+		priority_list[priority_len] =
+		    client_state->config->request_order[priority_len];
+		priority_len++;
+	    }
+	    goto skip_auto;
+	}
+
 	priority_list[priority_len++] = DHO_DHCP_MESSAGE_TYPE;
 	priority_list[priority_len++] = DHO_DHCP_SERVER_IDENTIFIER;
 	priority_list[priority_len++] = DHO_DHCP_LEASE_TIME;
@@ -779,7 +798,7 @@ cons_options(struct packet *inpacket, struct dhcp_packet *outpacket,
 			priority_list[priority_len++] =
 				DHO_VENDOR_ENCAPSULATED_OPTIONS;
 	}
-
+skip_auto:
 	/* Put the cookie up front... */
 	memcpy(buffer, DHCP_OPTIONS_COOKIE, 4);
 	index += 4;
@@ -1302,6 +1321,7 @@ store_options(int *ocount,
 
 	    /* If no data is available for this option, skip it. */
 	    if (!oc && !have_encapsulation) {
+		    log_error("no data is available for %s", option->name);
 		    continue;
 	    }
 	    

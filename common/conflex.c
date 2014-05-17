@@ -832,6 +832,12 @@ intern(char *atom, enum dhcp_token dfv) {
 						return CLIENT_STATE;
 					if (!strcasecmp(atom + 7, "updates"))
 						return CLIENT_UPDATES;
+					if (!strcasecmp(atom + 7,
+							"discover-order"))
+					    	return DISCOVER_ORDER;
+					if (!strcasecmp(atom + 7,
+							"request-order"))
+					    	return REQUEST_ORDER;
 					break;
 				}
 				break;

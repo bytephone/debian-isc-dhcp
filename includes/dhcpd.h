@@ -1147,6 +1147,10 @@ struct client_config {
 	int do_forward_update;		/* If nonzero, and if we have the
 					   information we need, update the
 					   A record for the address we get. */
+	int discover_manual_order;
+	int discover_order[255];
+	int request_manual_order;
+	int request_order[255];
 };
 
 /* Per-interface state used in the dhcp client... */
@@ -2870,6 +2874,8 @@ void parse_client_lease_declaration (struct parse *,
 int parse_option_decl (struct option_cache **, struct parse *);
 void parse_string_list (struct parse *, struct string_list **, int);
 int parse_ip_addr (struct parse *, struct iaddr *);
+void parse_order_statement (struct parse *, struct client_config *,
+			    enum dhcp_token);
 int parse_ip_addr_with_subnet(struct parse *, struct iaddrmatch *);
 void parse_reject_statement (struct parse *, struct client_config *);
 
