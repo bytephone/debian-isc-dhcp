@@ -1144,6 +1144,7 @@ store_options(int *ocount,
 	int ix;
 	int tto;
 	int bufend, sbufend;
+	int is_missed_params = 0;
 	struct data_string od;
 	struct option_cache *oc;
 	struct option *option = NULL;
@@ -1322,6 +1323,7 @@ store_options(int *ocount,
 	    /* If no data is available for this option, skip it. */
 	    if (!oc && !have_encapsulation) {
 		    log_error("no data is available for %s", option->name);
+		    is_missed_params = 1;
 		    continue;
 	    }
 	    
@@ -1510,6 +1512,9 @@ store_options(int *ocount,
 
 	if ((six || tix) && (bufix + 3 > bufend))
 	    log_fatal("Not enough space for option overload option.");
+
+	if (is_missed_params)
+	    log_fatal("Set missing options. (see 'dhcp-options' man page)");
 
 	return bufix;
 }
