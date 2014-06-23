@@ -76,22 +76,8 @@ void log_fatal (const char * fmt, ... )
 
 #if !defined (NOMINUM)
   log_error ("%s", "");
-  log_error ("If you did not get this software from ftp.isc.org, please");
-  log_error ("get the latest from ftp.isc.org and install that before");
-  log_error ("requesting help.");
-  log_error ("%s", "");
-  log_error ("If you did get this software from ftp.isc.org and have not");
-  log_error ("yet read the README, please read it before requesting help.");
-  log_error ("If you intend to request help from the dhcp-server@isc.org");
-  log_error ("mailing list, please read the section on the README about");
-  log_error ("submitting bug reports and requests for help.");
-  log_error ("%s", "");
-  log_error ("Please do not under any circumstances send requests for");
-  log_error ("help directly to the authors of this software - please");
-  log_error ("send them to the appropriate mailing list as described in");
-  log_error ("the README file.");
-  log_error ("%s", "");
-  log_error ("exiting.");
+  log_error ("This is fork for debian-isc-dhcp (enhanced version of dhclient)");
+  log_error ("https://github.com/bytephone/debian-isc-dhcp");
 #endif
   if (log_cleanup)
 	  (*log_cleanup) ();
